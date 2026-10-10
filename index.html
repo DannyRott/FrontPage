@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Aura Storefront | Modern Product Catalog</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <!-- Header / Navigation -->
+  <header class="site-header">
+    <div class="header-container">
+      <div class="brand">
+        <div class="brand-logo-mark">A</div>
+        <div class="brand-text">
+          <span class="brand-title">AURA</span>
+          <span class="brand-tagline">Storefront</span>
+        </div>
+      </div>
+
+      <div class="header-actions">
+        <span id="adminBadge" class="admin-badge" style="display: none;">
+          <span class="admin-badge-dot"></span> Admin mode
+        </span>
+
+        <button id="btnOpenManageCategories" class="btn btn-secondary" style="display: none;">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="4" y1="21" x2="4" y2="14"></line>
+            <line x1="4" y1="10" x2="4" y2="3"></line>
+            <line x1="12" y1="21" x2="12" y2="12"></line>
+            <line x1="12" y1="8" x2="12" y2="3"></line>
+            <line x1="20" y1="21" x2="20" y2="16"></line>
+            <line x1="20" y1="12" x2="20" y2="3"></line>
+            <line x1="1" y1="14" x2="7" y2="14"></line>
+            <line x1="9" y1="8" x2="15" y2="8"></line>
+            <line x1="17" y1="16" x2="23" y2="16"></line>
+          </svg>
+          <span>Categories</span>
+        </button>
+
+        <button id="btnOpenAddProduct" class="btn btn-primary" style="display: none;">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="12" y1="5" x2="12" y2="19"></line>
+            <line x1="5" y1="12" x2="19" y2="12"></line>
+          </svg>
+          <span>Add Product</span>
+        </button>
+
+        <button id="btnExportData" class="btn btn-secondary" style="display: none;">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+          </svg>
+          <span>Export Data</span>
+        </button>
+
+        <button id="btnImportData" class="btn btn-secondary" style="display: none;">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="17 8 12 3 7 8"></polyline>
+            <line x1="12" y1="3" x2="12" y2="15"></line>
+          </svg>
+          <span>Import Data</span>
+        </button>
+
+        <input type="file" id="importFileInput" accept=".json,application/json" class="file-input-hidden" style="display: none;">
+
+        <button id="btnAdminLogin" class="btn btn-secondary btn-sm">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+            <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+          </svg>
+          <span>Admin Login</span>
+        </button>
+
+        <button id="btnAdminLogout" class="btn btn-outline-danger btn-sm" style="display: none;">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+            <polyline points="16 17 21 12 16 7"></polyline>
+            <line x1="21" y1="12" x2="9" y2="12"></line>
+          </svg>
+          <span>Logout</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Storefront View -->
+  <main class="store-main">
+    <div class="store-container">
+      <!-- Category Bar Section -->
+      <section class="category-section" aria-label="Product Categories">
+        <div class="category-bar-header">
+          <span class="category-label">Filter by Category:</span>
+          <span id="productCounter" class="product-counter">Showing 0 products</span>
+        </div>
+        <div class="category-bar-scroll">
+          <nav id="categoryNav" class="category-nav" role="tablist">
+            <!-- Dynamic Category Pills -->
+          </nav>
+        </div>
+      </section>
+
+      <!-- Product Grid Section -->
+      <section class="products-section" aria-label="Products">
+        <div id="productGrid" class="product-grid">
+          <!-- Dynamic Product Cards -->
+        </div>
+
+        <!-- Empty State (Shown when no products) -->
+        <div id="emptyState" class="empty-state" style="display: none;">
+          <div class="empty-icon">
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect>
+              <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
+            </svg>
+          </div>
+          <h3 id="emptyStateTitle">No products found</h3>
+          <p id="emptyStateDesc">There are no products matching this category. Add a new product or choose another category.</p>
+          <button id="btnEmptyAddProduct" class="btn btn-primary">Add a Product</button>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <!-- Product Modal (Add & Edit) -->
+  <div id="productModal" class="modal-backdrop" aria-hidden="true" role="dialog" aria-labelledby="productModalTitle">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h2 id="productModalTitle" class="modal-title">Add New Product</h2>
+        <button type="button" class="btn-close" id="btnCloseProductModal" aria-label="Close modal">&times;</button>
+      </div>
+
+      <form id="productForm" class="modal-body" novalidate>
+        <input type="hidden" id="productId">
+
+        <div class="form-group">
+          <label for="productName" class="form-label">Product Name <span class="required">*</span></label>
+          <input type="text" id="productName" class="form-input" placeholder="e.g. Wireless Noise-Canceling Headphones" required maxlength="100">
+          <span class="form-error" id="nameError"></span>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="productPrice" class="form-label">Price (Rs.) <span class="required">*</span></label>
+            <input type="number" id="productPrice" class="form-input" placeholder="e.g. 1499" step="any" min="0.01" max="999999" required>
+            <span class="form-error" id="priceError"></span>
+          </div>
+
+          <div class="form-group">
+            <label for="productCategory" class="form-label">Category <span class="required">*</span></label>
+            <select id="productCategory" class="form-select" required>
+              <!-- Populated dynamically with active categories -->
+            </select>
+            <span class="form-error" id="categoryError"></span>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="productDescription" class="form-label">Description <span class="required">*</span></label>
+          <textarea id="productDescription" class="form-textarea" rows="3" placeholder="Briefly describe the product's highlights, materials, or features..." required maxlength="400"></textarea>
+          <span class="form-error" id="descriptionError"></span>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Product Image <span class="required" id="imageRequiredBadge">*</span></label>
+          <div class="image-upload-wrapper">
+            <input type="file" id="productImageInput" accept="image/png, image/jpeg, image/webp" class="file-input-hidden">
+            <div id="imageDropzone" class="image-dropzone" tabindex="0" role="button" aria-label="Upload product image">
+              <div id="dropzoneEmpty" class="dropzone-empty">
+                <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                  <circle cx="8.5" cy="8.5" r="1.5"></circle>
+                  <polyline points="21 15 16 10 5 21"></polyline>
+                </svg>
+                <div class="dropzone-text">
+                  <strong>Click to upload</strong> or drag and drop
+                </div>
+                <div class="dropzone-hint">PNG, JPG, or WEBP (automatically optimized &amp; resized to max 600px)</div>
+              </div>
+
+              <div id="dropzonePreview" class="dropzone-preview" style="display: none;">
+                <img id="imagePreviewImg" src="" alt="Product preview">
+                <div class="preview-overlay">
+                  <span class="btn-change-image">Change Image</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <span class="form-error" id="imageError"></span>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" id="btnCancelProduct">Cancel</button>
+          <button type="submit" class="btn btn-primary" id="btnSaveProduct">Save Product</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Manage Categories Modal -->
+  <div id="categoryModal" class="modal-backdrop" aria-hidden="true" role="dialog" aria-labelledby="categoryModalTitle">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h2 id="categoryModalTitle" class="modal-title">Manage Categories</h2>
+        <button type="button" class="btn-close" id="btnCloseCategoryModal" aria-label="Close modal">&times;</button>
+      </div>
+
+      <div class="modal-body">
+        <!-- Add New Category Form -->
+        <form id="addCategoryForm" class="add-category-row">
+          <div class="input-inline-wrap">
+            <input type="text" id="newCategoryName" class="form-input" placeholder="New category name (e.g. Sports)" maxlength="30" required>
+            <button type="submit" class="btn btn-primary">Add Category</button>
+          </div>
+          <span class="form-error" id="newCategoryError"></span>
+        </form>
+
+        <div class="categories-list-header">
+          <span>Active Categories</span>
+          <span class="subtext">Categories can be removed if they are not the only one</span>
+        </div>
+
+        <!-- Category list -->
+        <div id="categoriesList" class="categories-list">
+          <!-- Populated dynamically -->
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" id="btnCloseCategoryModalFooter">Done</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Admin Login Modal -->
+  <div id="loginModal" class="modal-backdrop" aria-hidden="true" role="dialog" aria-labelledby="loginModalTitle">
+    <div class="modal-card modal-card-sm">
+      <div class="modal-header">
+        <h2 id="loginModalTitle" class="modal-title">Admin Login</h2>
+        <button type="button" class="btn-close" id="btnCloseLoginModal" aria-label="Close modal">&times;</button>
+      </div>
+
+      <form id="loginForm" class="modal-body" novalidate>
+        <div class="form-group">
+          <label for="adminUsername" class="form-label">Username <span class="required">*</span></label>
+          <input type="text" id="adminUsername" class="form-input" placeholder="Enter username" autocomplete="username" required>
+        </div>
+
+        <div class="form-group">
+          <label for="adminPassword" class="form-label">Password <span class="required">*</span></label>
+          <input type="password" id="adminPassword" class="form-input" placeholder="Enter password" autocomplete="current-password" required>
+        </div>
+
+        <div id="loginError" class="form-error" role="alert"></div>
+
+        <div class="modal-footer modal-footer-inline">
+          <button type="button" class="btn btn-secondary" id="btnCancelLogin">Cancel</button>
+          <button type="submit" class="btn btn-primary" id="btnLoginSubmit">Login</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Toast Notification Container -->
+  <div id="toastContainer" class="toast-container" aria-live="polite"></div>
+
+  <script src="script.js"></script>
+</body>
+</html>
